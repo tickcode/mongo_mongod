@@ -52,7 +52,7 @@
   file: path={{ mongod_datadir_prefix }}/mongo-{{ mongod_port }} state=directory owner={{ mongo_user }} group={{ mongo_group }}
 
 - name: Create the mongodb startup file for Rhel
-  template: src=mongod.j2 dest=/etc/init.d/mongod-{{ mongod_port }} mode=0655
+  template: src=mongod.j2 dest=/etc/init.d/mongod mode=0655
   when: ansible_os_family == "RedHat"
 
 - name: Create the mongodb startup file for Debian
@@ -60,13 +60,14 @@
   when: ansible_os_family == "Debian"
 
 - name: Create the mongodb configuration file
-  template: src=mongod.conf.j2 dest=/etc/mongod-{{ mongod_port }}.conf
+  template: src=mongod.conf.j2 dest=/etc/mongod-{{ mongod_port }}.conf owner=root group=root mode=0644
 
 - name: Copy the keyfile for authentication
-  copy: src=secret dest={{ mongod_datadir_prefix }}/secret owner={{ mongo_user }} group={{ mongo_group }} mode=0400
+  copy: src={{ mongod_secret_keyfile }} dest={{ mongod_datadir_prefix }}/secret owner={{ mongo_user }} group={{ mongo_group }} mode=0400
 
 - name: Start the mongodb service for redhat variants
-  command: creates=/var/lock/subsys/mongod-{{ mongod_port }} /etc/init.d/mongod-{{ mongod_port }} start
+  service: name=mongod state=restarted
+#  command: creates=/var/lock/subsys/mongod /etc/init.d/mongod start
   when: ansible_os_family == "RedHat"
 
 - name: Start the mongodb service for Ubuntu variants

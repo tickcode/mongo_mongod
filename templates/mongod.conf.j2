@@ -3,7 +3,7 @@ smallfiles={{ mongod_smallfiles }}
 
 #where to log
 {% if ansible_os_family == "RedHat" %}
-logpath=/var/log/mongo/mongod-{{ mongod_port }}.log
+logpath=/var/log/mongodb/mongod-{{ mongod_port }}.log
 # fork and run in background
 fork = true
 {% endif %}

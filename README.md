@@ -25,6 +25,7 @@ The variables that can be passed to this role and a brief description about them
     mongod_repl_servers: []             # The hostname's of the server where the data should be replicated.
     mongod_repl_master: "localhost"     # The host which should act as the repl master during configuration.
     mongod_replset_name: rs0            # The name of the replica set.
+    mongod_secrete_keyfile: "secret"    # Your secrete keyfile to be used.
 
 
 Examples
@@ -39,6 +40,7 @@ Examples
           mongod_datadir_prefix: "/data/"
           mongod_replication: false
           mongod_port: 2701
+          mongod_secrete_keyfile: "secret"
 
 2) Eg: Install mongodb with data replicated across two other hosts.
 
@@ -52,6 +54,7 @@ Examples
          mongod_repl_servers: ['mongo1', 'mongo2', 'mongo3' ]
          mongod_repl_master: mongo1
          mongod_replset_name: rs0
+         mongod_secrete_keyfile: "secret"
 
 
 
